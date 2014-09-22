@@ -15,15 +15,20 @@ public class UDPClient{
 			socket = new DatagramSocket();
 			int portNo = Integer.valueOf(args[1]).intValue();
 			InetAddress host = InetAddress.getByName(args[0]);
-			byte[] buffer = new byte[1000];
+
 			while(true){
+				byte[] buffer = new byte[256];
 				System.out.print("Enter message to send: ");
-				String requestMessage = sc.next();
+				String requestMessage = sc.nextLine();
 				DatagramPacket request = new DatagramPacket(requestMessage.getBytes(), requestMessage.length(), host, portNo);
 				socket.send(request);
-				DatagramPacket reply = new DatagramPacket(buffer, 1000);
+
+				DatagramPacket reply = new DatagramPacket(buffer, 256);
 				socket.receive(reply);
-				System.out.println("Receive message: " + new String(buffer));
+				// remove extra empty characters
+				int i;
+				for(i=0; i<256 && buffer[i]!=0; i++);
+				System.out.println("Receive message: " + new String(buffer,0,i));
 			}
 		} catch(SocketException e) {
 			if(socket != null)

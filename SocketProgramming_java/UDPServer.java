@@ -14,11 +14,16 @@ public class UDPServer {
 		try{
 			int portNo = Integer.valueOf(args[0]).intValue();
 			socket = new DatagramSocket(portNo);
-			byte[] buffer = new byte[1000];
 			while(true){
-				DatagramPacket request = new DatagramPacket(buffer, 1000);
+				byte[] buffer = new byte[256];
+				DatagramPacket request = new DatagramPacket(buffer, 256);
 				socket.receive(request);
-				System.out.println("Reveice massage: " + new String(buffer));
+
+				// remove extra empty characters
+				int i;
+				for(i=0; i<256 && buffer[i]!=0; i++);
+				System.out.println("Receive massage: " + new String(buffer,0,i));
+
 
 				String receiveTime = (new SimpleDateFormat()).format((new Date()));
 				String replyMessage = "I have received your message at " + receiveTime;
