@@ -31,14 +31,12 @@ public class UDPServer {
 				socket.send(reply);
 			}
 		} catch(SocketException e) {
+			System.out.println("Socket: " + e.getMessage());
+		} catch(IOException e) {
+			System.out.println("IO: " + e.getMessage());
+		} finally {
 			if(socket != null)
 				socket.close();
-			System.out.println(e.getMessage());
-			System.exit(1);
-		} catch(IOException e) {
-			socket.close();
-			System.out.println(e.getMessage());
-			System.exit(1);
 		}
 	}
 }

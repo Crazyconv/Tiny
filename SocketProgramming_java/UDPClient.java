@@ -48,14 +48,12 @@ public class UDPClient{
 			for(i=0; i<256 && buffer[i]!=0; i++);
 			System.out.println("Receive message: " + new String(buffer,0,i));
 		} catch(SocketException e) {
+			System.out.println("Socket: " + e.getMessage());
+		} catch(IOException e) {
+			System.out.println("IO: " + e.getMessage());
+		} finally {
 			if(socket != null)
 				socket.close();
-			System.out.println(e.getMessage());
-			System.exit(1);
-		} catch(IOException e) {
-			socket.close();
-			System.out.println(e.getMessage());
-			System.exit(1);
 		}
 	}
 }
