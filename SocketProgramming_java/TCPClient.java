@@ -18,19 +18,19 @@ public class TCPClient{
 		try{
 			socket = new Socket(args[0], portNo);
 			os = new DataOutputStream(socket.getOutputStream());
-			BufferedReader br = new BufferedReader(new InputStreamReader(new DataInputStream(socket.getInputStream())));
+			is = new DataInputStream(socket.getInputStream());
 			while(true){
 				System.out.print("Send message to server: ");
 				String sendMessage = sc.nextLine();
-				os.writeBytes(sendMessage);
+				os.writeUTF(sendMessage);
 				if(sendMessage.equals("end")){
 					socket.close();
-					br.close();
+					is.close();
 					os.close();
 					break;
 				}
 
-				String receiveMessage = br.readLine();
+				String receiveMessage = is.readUTF();
 				System.out.println("Receive from server: " + receiveMessage);
 			}
 		} catch(Exception e){

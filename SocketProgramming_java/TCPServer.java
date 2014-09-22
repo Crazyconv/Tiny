@@ -34,21 +34,22 @@ class ClientHandler implements Runnable{
 	}
 	public void run(){
 		try{
-			BufferedReader br = new BufferedReader(new InputStreamReader(new DataInputStream(socket.getInputStream())));
+			DataInputStream is = new DataInputStream(socket.getInputStream());
 			DataOutputStream os = new DataOutputStream(socket.getOutputStream());
 			while(true){
-				String receiveMessage = br.readLine();
+				System.out.println("Accpet.");
+				String receiveMessage = is.readUTF();
 				System.out.println("Receive from client: " + receiveMessage);
 				if(receiveMessage.equals("end")){
 					socket.close();
-					br.close();
+					is.close();
 					os.close();
 					break;
 				}
 
 				String receiveTime = (new SimpleDateFormat()).format((new Date()));
 				String replyMessage = "I have received your message at " + receiveTime;			
-				os.writeBytes(replyMessage);
+				os.writeUTF(replyMessage);
 			}
 		} catch(Exception e){
 			System.out.println(e.getMessage());
