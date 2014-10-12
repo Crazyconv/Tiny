@@ -15,13 +15,13 @@ public class UDPServer {
 			int portNo = Integer.valueOf(args[0]).intValue();
 			socket = new DatagramSocket(portNo);
 			while(true){
-				byte[] buffer = new byte[256];
-				DatagramPacket request = new DatagramPacket(buffer, 256);
+				byte[] buffer = new byte[512];
+				DatagramPacket request = new DatagramPacket(buffer, 512);
 				socket.receive(request);
 
 				// remove extra empty characters
 				int i;
-				for(i=0; i<256 && buffer[i]!=0; i++);
+				for(i=0; i<512 && buffer[i]!=0; i++);
 				System.out.println("Receive massage: " + new String(buffer,0,i));
 
 
